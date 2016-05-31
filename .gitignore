@@ -1,0 +1,7 @@
+*.classpath
+*.project
+*.settings
+/TestCam/eclipse/
+/TestCam/logs/
+/TestCam/test-result/
+/TestCam/tmp/
