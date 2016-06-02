@@ -1,4 +1,16 @@
+#{set title:'TEST' /}
+#{set 'moreScripts'}
+<script src="@{'/public/javascripts/components/MainFrame.js'}" type="text/javascript" charset="utf-8"></script>
+#{/set}
 #{extends 'main.html' /}
-#{set title:'Home' /}
 
-#{welcome /}
+<script type="text/javascript">
+  'use strict';
+  $(document).ready(function(){
+  });
+</script>
+
+<div class="container-fluid contentBody" style="">
+    *{メイン１}*
+    <x-mainframe/>
+</div>

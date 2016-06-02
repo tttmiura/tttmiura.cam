@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+html {
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
+body {
+  font-size: 11.7px;
+  overfolw-y: scroll;
+  padding-bottom: 0px;
+  padding-top: 0px;
+  height: 100%;
+  background-image: -webkit-gradient(
+  linear,
+  left top,
+  left bottom,
+  color-stop(0, #ecf3f3),
+  color-stop(1, #fff)
+  );
+  background-image: -o-linear-gradient(bottom, #ecf3f3 0%, #fff 100%);
+  background-image: -moz-linear-gradient(bottom, #ecf3f3 0%, #fff 100%);
+  background-image: -webkit-linear-gradient(bottom, #ecf3f3 0%, #fff 100%);
+  background-image: -ms-linear-gradient(bottom, #ecf3f3 0%, #fff 100%);
+  background-image: linear-gradient(to bottom, #ecf3f3 0%, #fff 100%);
+}
+
+div.contentBody {
+  height: 100%;
+}
+div.mainFrame {
+  height: 300px;
+}
