@@ -17,6 +17,8 @@ var MainFrame = function() {
 		div.appendChild(video);
 
 		var canvas = document.createElement('canvas');
+		canvas.setAttribute('width', '640');
+		canvas.setAttribute('height', '480');
 		canvas.classList.add('dummyCanvas');
 		var ctx = canvas.getContext('2d');
 		div.appendChild(canvas);
@@ -25,14 +27,13 @@ var MainFrame = function() {
 
 		var interval = null
 		var postImage = function() {
-			ctx.drawImage(video, 0, 0);
+			ctx.drawImage(video, 0, 0, 640, 480);
 			var url = ctx.canvas.toDataURL("image/jpeg");
 			$.ajax({
 				type: "POST",
 				url: "/postImage",
 				data: {imgBase : url},
 				dataType: "json",
-//				contentType: "application/json; charset=utf-8",
 				success: function (data) {
 					console.log("Ajax success");
 				},

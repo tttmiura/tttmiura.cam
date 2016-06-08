@@ -26,7 +26,9 @@ public class Application extends Controller {
                     + "/tmp/"
                     + System.currentTimeMillis()
                     + ".jpg";
-            IOUtils.write(imageBytes, new FileOutputStream(new File(fileName)));
+            try (FileOutputStream os = new FileOutputStream(new File(fileName))) {
+                IOUtils.write(imageBytes, os);
+            }
         }
         catch (final IOException e) {
             Logger.error(e, "エラー");
