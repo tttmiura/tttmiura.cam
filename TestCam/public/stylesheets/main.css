@@ -31,3 +31,9 @@ div.contentBody {
 div.mainFrame {
   height: 300px;
 }
+
+canvas.dummyCanvas {
+  display: none;
+  width:640px;
+  height:480px;
+}
