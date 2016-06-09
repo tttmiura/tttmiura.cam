@@ -1,12 +1,9 @@
 package models.dto;
 
-public class PostImageDto {
-    public boolean result;
-    public String errorMessage;
+public class PostImageDto extends AbstractDto {
     
     public PostImageDto() {
-        this.result = true;
-        this.errorMessage = "";
+        super();
     }
     
     public static PostImageDto errors(final Throwable e) {

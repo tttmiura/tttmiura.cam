@@ -2,6 +2,13 @@
 var MainFrame = function() {
 	var proto = Object.create(HTMLElement.prototype);
 
+	var settings = {
+		defaultSize :function(dom) {
+			dom.setAttribute('width', '320');
+			dom.setAttribute('height', '240');
+		}
+	};
+
 	proto.createdCallback = function() {
 		var self = this;
 
@@ -13,12 +20,12 @@ var MainFrame = function() {
 
 		var video = document.createElement('video');
 		video.setAttribute('autoplay', 'autoplay');
+		settings.defaultSize(video);
 		video.classList.add('mainVideo');
 		div.appendChild(video);
 
 		var canvas = document.createElement('canvas');
-		canvas.setAttribute('width', '640');
-		canvas.setAttribute('height', '480');
+		settings.defaultSize(canvas);
 		canvas.classList.add('dummyCanvas');
 		var ctx = canvas.getContext('2d');
 		div.appendChild(canvas);
@@ -27,7 +34,7 @@ var MainFrame = function() {
 
 		var interval = null
 		var postImage = function() {
-			ctx.drawImage(video, 0, 0, 640, 480);
+			ctx.drawImage(video, 0, 0, 320, 240);
 			var url = ctx.canvas.toDataURL("image/jpeg");
 			$.ajax({
 				type: "POST",
@@ -49,7 +56,7 @@ var MainFrame = function() {
 		navigator.webkitGetUserMedia(constraints, function(localMediaStream) {
 			console.log("Media success");
 			video.src = window.URL.createObjectURL(localMediaStream);
-			interval = setInterval(postImage, 10000);
+			interval = setInterval(postImage, 60000);
 		}, function() {
 			console.log("Media error");
 		});

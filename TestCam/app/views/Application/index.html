@@ -1,6 +1,7 @@
 #{set title:'TEST' /}
 #{set 'moreScripts'}
 <script src="@{'/public/javascripts/components/MainFrame.js'}" type="text/javascript" charset="utf-8"></script>
+<script src="@{'/public/javascripts/components/SubFrame.js'}" type="text/javascript" charset="utf-8"></script>
 #{/set}
 #{extends 'main.html' /}
 
@@ -12,5 +13,6 @@
 
 <div class="container-fluid contentBody" style="">
     *{メイン１}*
-    <x-mainframe/>
+    <x-mainframe></x-mainframe>
+    <x-subframe></x-subframe>
 </div>

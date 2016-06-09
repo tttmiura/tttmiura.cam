@@ -7,6 +7,10 @@ GET     /                                       Application.index
 
 POST    /postImage                              Application.postImage
 
+GET     /getImagesList                          Application.getImagesList
+
+GET     /getImage/{client}                      Application.getImage
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
