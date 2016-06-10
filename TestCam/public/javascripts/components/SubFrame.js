@@ -38,10 +38,10 @@ var SubFrame = function() {
 			img.src = srcBase + new Date().getTime();
 			subFrame.appendChild(img);
 			var worker = new Worker("public/javascripts/worker/ReloadImg.js");
-			worker.onmessage = function(result) {
-				console.log(result);
-				if(result.src) {
-					img.src = result;
+			worker.onmessage = function(message) {
+				console.log(message);
+				if(message.data.src) {
+					img.src = message.data.src;
 				} else {
 					worker.terminate();
 				}

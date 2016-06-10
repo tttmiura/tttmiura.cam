@@ -6,6 +6,7 @@ import java.io.*;
 import java.util.*;
 
 import models.dto.*;
+import models.dto.util.*;
 
 import org.apache.commons.io.*;
 
@@ -31,7 +32,7 @@ public class Application extends Controller {
             final File file = new File(currentFileName());
             try (FileOutputStream os = new FileOutputStream(file)) {
                 IOUtils.write(imageBytes, os);
-                setImage(file);
+                setImage(request.remoteAddress, file);
             }
         }
         catch (final IOException e) {
@@ -63,8 +64,19 @@ public class Application extends Controller {
         return new File(folerName);
     }
     
-    private static synchronized void setImage(final File file) {
-        imageFileMap.put(request.remoteAddress, file);
+    private static synchronized void setImage(final String client, final File file) {
+        if (imageFileMap.containsKey(client) && Config.isOldFileDelete()) {
+            deleteFiles(client);
+        }
+        imageFileMap.put(client, file);
+    }
+    
+    private static void deleteFiles(final String client) {
+        final File file = imageFileMap.get(client);
+        if (file == null) {
+            return;
+        }
+        file.delete();
     }
     
     private static synchronized List<String> getKeys() {

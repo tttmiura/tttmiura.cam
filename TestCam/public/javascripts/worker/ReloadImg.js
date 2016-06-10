@@ -1,11 +1,12 @@
-onmessage = function(srcBase) {
+onmessage = function(message) {
+	console.log(message);
 	var baseTime = new Date().getTime();
 	while(true) {
 		var currentTime = new Date().getTime();
-		if((currentTime - baseTime) < 60000) {
+		if((currentTime - baseTime) < 10000) {
 			continue;
 		}
 		baseTime = currentTime;
-		postMessage({ src : srcBase +  currentTime});
+		postMessage({ src : message.data.src +  currentTime});
 	}
 };

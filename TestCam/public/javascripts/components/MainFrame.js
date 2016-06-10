@@ -56,7 +56,7 @@ var MainFrame = function() {
 		navigator.webkitGetUserMedia(constraints, function(localMediaStream) {
 			console.log("Media success");
 			video.src = window.URL.createObjectURL(localMediaStream);
-			interval = setInterval(postImage, 60000);
+			interval = setInterval(postImage, 10000);
 		}, function() {
 			console.log("Media error");
 		});
