@@ -129,14 +129,19 @@ navigator.webkitGetUserMedia(constraints, function(localMediaStream) {
 				]
 			});
 
+			var mediaStream = null;
+
 			function execTestVideo() {
 				console.log('execTestVideo');
+				var video = document.querySelector('#testVideo');
+
 				var constraints = { audio: false, video: true }; // マイクを使うかカメラを使うかのパラメータ
 
 				navigator.webkitGetUserMedia(constraints, function(localMediaStream) { // 今の時点ではベンダ毎のが欲しいようです
 					// successCallback
 					console.log('successCallback');
-					var video = document.querySelector('#testVideo');
+					console.log(localMediaStream);
+					mediaStream = localMediaStream;
 					video.src = window.URL.createObjectURL(localMediaStream);
 				},function(code) {
 					// errorCallback
