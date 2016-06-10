@@ -35,7 +35,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section id="sectionTitle">
-					<h1>HTML5のいろいろを触ってみる</h1>
+					<h1>HTML5いろいろ</h1>
 					<h3>メディアデバイス編</h3>
 				</section>
 				<section id="sectionIntr">
@@ -46,7 +46,43 @@
 						<li>HTML5でAPIがうんぬんかんぬん</li>
 					</ul>
 				</section>
-				<section id="sectionIntr">
+				<section id="sectionUserMedia">
+					<section id="sectionUserMedia1">
+						<h3>とっかかりとなるAPI</h3>
+						<p>Navigator.getUserMedia</p>
+						<div style="text-align:left;">
+<pre><code>プロンプトを表示し、ユーザにカメラやマイクといったメディアデバイスの
+使用を許すかどうかを尋ねます。
+ユーザが許可した場合、LocalMediaStream オブジェクトを引数に
+successCallbackが呼ばれます。
+</code></pre>
+						</div>
+						<p>だそうです。</p>
+						<a href="https://developer.mozilla.org/ja/docs/Web/API/Navigator/getUserMedia">気になる人のための参考リンク</a>
+					</section>
+					<section id="sectionUserMedia1">
+						<h3>おためし</h3>
+						<div style="text-align: center;">
+							<a href="" onClick="execTestVideo(); return false;">テスト</a>
+						</div>
+						<video id="testVideo" autoplay></video>
+					</section>
+					<section id="sectionUserMedia2">
+						<h3>サンプルコード</h3>
+<pre><code>// マイクを使うかカメラを使うかのパラメータ
+var constraints = { audio: false, video: true };
+
+// 今の時点ではベンダ毎のが欲しいようです
+navigator.webkitGetUserMedia(constraints, function(localMediaStream) {
+    // successCallback
+    var video = document.querySelector('#testVideo');
+    video.src = window.URL.createObjectURL(localMediaStream);
+},function(code) {
+    // errorCallback
+    alert('Media error');
+});
+</code></pre>
+					</section>
 				</section>
 			</div>
 		</div>
@@ -85,6 +121,22 @@
 					{ src: 'public/plugin/notes/notes.js', async: true }
 				]
 			});
+
+			function execTestVideo() {
+				console.log('execTestVideo');
+				var constraints = { audio: false, video: true }; // マイクを使うかカメラを使うかのパラメータ
+
+				navigator.webkitGetUserMedia(constraints, function(localMediaStream) { // 今の時点ではベンダ毎のが欲しいようです
+					// successCallback
+					console.log('successCallback' + code);
+					var video = document.querySelector('#testVideo');
+					video.src = window.URL.createObjectURL(localMediaStream);
+				},function(code) {
+					// errorCallback
+					console.log('errorCallback' + code);
+					alert('Media error');
+				});
+			}
 		</script>
 
 	</body>
