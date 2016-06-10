@@ -83,6 +83,13 @@ navigator.webkitGetUserMedia(constraints, function(localMediaStream) {
 });
 </code></pre>
 					</section>
+					<section id="sectionUserMedia3">
+						<h3>注意</h3>
+						<div style="text-align:left;">
+						getUserMedia() no longer works on insecure origins. To use this feature, you should consider switching your application to a secure origin, such as HTTPS. See https://goo.gl/rStTGz for more details.
+						</div>
+						<p class="fragment fade-up" style="color: red;">httpではダメ</p>
+					</section>
 				</section>
 			</div>
 		</div>
@@ -128,7 +135,7 @@ navigator.webkitGetUserMedia(constraints, function(localMediaStream) {
 
 				navigator.webkitGetUserMedia(constraints, function(localMediaStream) { // 今の時点ではベンダ毎のが欲しいようです
 					// successCallback
-					console.log('successCallback' + code);
+					console.log('successCallback');
 					var video = document.querySelector('#testVideo');
 					video.src = window.URL.createObjectURL(localMediaStream);
 				},function(code) {
