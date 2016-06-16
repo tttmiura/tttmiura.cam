@@ -9,6 +9,7 @@ import models.dto.*;
 import models.dto.util.*;
 
 import org.apache.commons.io.*;
+import org.apache.commons.lang3.*;
 
 import play.*;
 import play.mvc.*;
@@ -43,7 +44,7 @@ public class Application extends Controller {
                 IOUtils.write(imageBytes, os);
                 
                 // ファイルをstaticに保持させた
-                setImage(request.remoteAddress, file);
+                setImage(remoteAddr(), file);
             }
         }
         catch (final IOException e) {
@@ -58,6 +59,20 @@ public class Application extends Controller {
         renderJSON(new GetImageDto(getKeys()));
     }
     
+    // キーを保持しているかどうかを返す
+    public static void hasImage(final String client) {
+        if (!imageFileMap.containsKey(client)) {
+            renderJSON(HasImageDto.errors());
+        }
+        final File file = imageFileMap.get(client);
+        final long time = System.currentTimeMillis() - file.lastModified();
+        if (time > 300000) {
+            deleteFiles(client);
+            renderJSON(HasImageDto.errors());
+        }
+        renderJSON(HasImageDto.success());
+    }
+    
     // staticに保持しているファイルの内容を返す
     public static void getImage(final String client) {
         renderBinary(imageFileMap.get(client));
@@ -65,12 +80,15 @@ public class Application extends Controller {
     
     // ファイル名を生成
     private static String currentFileName() {
-        final File folder = getClientFolder(request.remoteAddress);
+        final String remoteAddr = remoteAddr();
+        final File folder = getClientFolder(remoteAddr);
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        return String.format(FILE_NAME_FORMAT,
-                             request.remoteAddress + "/" + System.currentTimeMillis() + ".jpg");
+        return String.format(FILE_NAME_FORMAT, remoteAddr
+                + "/"
+                + System.currentTimeMillis()
+                + ".jpg");
     }
     
     // ファイルを格納するフォルダの生成
@@ -84,6 +102,7 @@ public class Application extends Controller {
         if (imageFileMap.containsKey(client) && Config.isOldFileDelete()) {
             deleteFiles(client);
         }
+        
         imageFileMap.put(client, file);
     }
     
@@ -103,5 +122,14 @@ public class Application extends Controller {
 //                                                                                   request.remoteAddress))
 //                                              .collect(Collectors.toList());
         return list;
+    }
+    
+    private static String remoteAddr() {
+        String key = request.remoteAddress;
+        
+        if (StringUtils.contains(key, ":")) {
+            key = StringUtils.replace(key, ":", "");
+        }
+        return key;
     }
 }

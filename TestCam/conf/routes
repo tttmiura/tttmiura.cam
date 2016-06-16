@@ -7,6 +7,8 @@ GET     /                                       Application.index
 
 POST    /postImage                              Application.postImage
 
+GET     /hasImage/{client}                      Application.hasImage
+
 GET     /getImagesList                          Application.getImagesList
 
 GET     /getImage/{client}                      Application.getImage
