@@ -1,3 +1,4 @@
+importScripts('/public/javascripts/Config.js');
 
 onmessage = function(message) {
 	var baseTime = new Date().getTime();
@@ -5,7 +6,7 @@ onmessage = function(message) {
 	while(true) {
 		var currentTime = new Date().getTime();
 
-		if((currentTime - baseTime) < 10000) {
+		if((currentTime - baseTime) < Config.reloadInterval) {
 			continue;
 		}
 

@@ -26,6 +26,15 @@ var SubFrameFuntion = {
 		SubFrameFuntion.appendImg(client);
 	},
 
+	deleteImg : function(client) {
+		var img = document.querySelector('img[client="' + client + '"]');
+		if(!img) {
+			return;
+		}
+		var subFrame = document.querySelector('.subFrame');
+		subFrame.removeChild(img);
+	},
+
 	appendImg : function(client) {
 		var subFrame = document.querySelector('.subFrame');
 		var img = document.createElement('img');
@@ -35,25 +44,34 @@ var SubFrameFuntion = {
 		var srcBase = '/getImage/' + client + '?';
 		img.src = srcBase + new Date().getTime();
 		subFrame.appendChild(img);
+
 		var worker = new Worker("public/javascripts/worker/ReloadImg.js");
 		worker.onmessage = function(message) {
-			$.ajax({
-				type: "GET",
-				url: "/hasImage/" + client,
-				dataType: "json",
-				success: function(data) {
-					if(data.result) {
-						img.src = message.data.src;
-					} else {
-						worker.terminate();
-					}
-				},
-				error: function(res, status, errorThrown){
-					worker.terminate();
-				}
+			SubFrameFuntion.hasImg(client, function() {
+				img.src = message.data.src;
+			}, function() {
+				worker.terminate();
+				SubFrameFuntion.deleteImg(client);
 			});
 		}
+
 		worker.postMessage({ src : srcBase });
+	},
+
+	hasImg : function(client, succesCallBack, errorCallBack) {
+		$.ajax({
+			type: "GET",
+			url: "/hasImage/" + client,
+			dataType: "json",
+			success: function(data) {
+				if(data.result) {
+					succesCallBack(data);
+				} else {
+					errorCallBack(data);
+				}
+			},
+			error: errorCallBack
+		});
 	},
 
 	init : function() {

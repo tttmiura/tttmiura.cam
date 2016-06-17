@@ -11,24 +11,24 @@ var MainFrameFuntion = {
 			proto.createdCallback = function() {
 				var self = this;
 
-				var div = document.createElement('div');
-				div.classList.add('container');
-				div.classList.add('mainFrame');
-				div.classList.add('text-center');
-				self.appendChild(div);
+				var containerDiv = document.createElement('div');
+				containerDiv.classList.add('container');
+				containerDiv.classList.add('mainFrame');
+				containerDiv.classList.add('text-center');
+				self.appendChild(containerDiv);
 
 				var video = document.createElement('video');
 				video.setAttribute('autoplay', 'autoplay');
 				video.setAttribute('poster', 'public/images/curry.jpg');
 				MainFrameFuntion.settings.defaultSize(video);
 				video.classList.add('mainVideo');
-				div.appendChild(video);
+				containerDiv.appendChild(video);
 
 				var canvas = document.createElement('canvas');
 				MainFrameFuntion.settings.defaultSize(canvas);
-				canvas.classList.add('dummyCanvas');
+				canvas.classList.add(Config.snapCanvasClass);
 				var ctx = canvas.getContext('2d');
-				div.appendChild(canvas);
+				containerDiv.appendChild(canvas);
 
 				var constraints = { audio: false, video: true };
 
@@ -59,8 +59,7 @@ var MainFrameFuntion = {
 						interval = null;
 						video.src = '#'
 					}
-					var stopAlert = new NotificationAlert({title: 'デバイス停止', msg : 'デバイスが停止しました。'});
-					stopAlert.notify();
+					NotificationAlert.alert('デバイス停止', 'デバイスが停止しました。');
 				}
 
 				// TODO
@@ -90,7 +89,7 @@ var MainFrameFuntion = {
 					};
 
 					video.src = window.URL.createObjectURL(localMediaStream);
-					interval = setInterval(postImage, 10000);
+					interval = setInterval(postImage, Config.postInterval);
 				}, function() {
 					console.log("Media error");
 				});

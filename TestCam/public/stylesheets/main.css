@@ -32,6 +32,13 @@ div.mainFrame {
   height: 300px;
 }
 
+video.mainVideo {
+  margin: 10px;
+}
+
 canvas.dummyCanvas {
   display: none;
+}
+canvas.snapCanvas {
+  margin: 10px;
 }

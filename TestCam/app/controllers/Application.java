@@ -10,6 +10,7 @@ import models.dto.util.*;
 
 import org.apache.commons.io.*;
 import org.apache.commons.lang3.*;
+import org.joda.time.*;
 
 import play.*;
 import play.mvc.*;
@@ -81,18 +82,27 @@ public class Application extends Controller {
     // ファイル名を生成
     private static String currentFileName() {
         final String remoteAddr = remoteAddr();
-        final File folder = getClientFolder(remoteAddr);
-        if (!folder.exists()) {
-            folder.mkdirs();
+        final File clientDir = getClientDir(remoteAddr);
+        if (!clientDir.exists()) {
+            clientDir.mkdirs();
         }
-        return String.format(FILE_NAME_FORMAT, remoteAddr
-                + "/"
-                + System.currentTimeMillis()
-                + ".jpg");
+        final DateTime now = DateTime.now();
+        final File timeDir = getTimeDir(clientDir, now);
+        if (!timeDir.exists()) {
+            timeDir.mkdirs();
+        }
+        
+        return timeDir.getAbsolutePath() + "/" + now.toString("HH_mm_sss") + ".jpg";
     }
     
-    // ファイルを格納するフォルダの生成
-    private static File getClientFolder(final String address) {
+    // 時間毎のディレクトリ作成
+    private static File getTimeDir(final File parentDir, final DateTime now) {
+        final String timeStr = now.toString("yyyyMMdd");
+        return new File(parentDir.getAbsolutePath() + "/" + timeStr);
+    }
+    
+    // ファイルを格納するディレクトリ作成
+    private static File getClientDir(final String address) {
         final String folerName = String.format(FILE_NAME_FORMAT, address);
         return new File(folerName);
     }
@@ -108,11 +118,16 @@ public class Application extends Controller {
     
     // ファイルを削除
     private static void deleteFiles(final String client) {
+        if (!imageFileMap.containsKey(client)) {
+            return;
+        }
+        
         final File file = imageFileMap.get(client);
         if (file == null) {
             return;
         }
         file.delete();
+        imageFileMap.remove(client);
     }
     
     // キー一覧の取得
