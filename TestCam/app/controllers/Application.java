@@ -21,7 +21,7 @@ public class Application extends Controller {
     private static final Map<String, File> imageFileMap = new HashMap<String, File>();
     
     // ファイル格納パス
-    private static final String FILE_NAME_FORMAT = Play.applicationPath + "/tmp/%s";
+    private static final String FILE_NAME_FORMAT = Play.applicationPath + "/logs/image/%s";
     
     public static void index() {
         render();
@@ -92,7 +92,7 @@ public class Application extends Controller {
             timeDir.mkdirs();
         }
         
-        return timeDir.getAbsolutePath() + "/" + now.toString("HH_mm_sss") + ".jpg";
+        return timeDir.getAbsolutePath() + "/" + now.toString("HH_mm_ss") + ".jpg";
     }
     
     // 時間毎のディレクトリ作成

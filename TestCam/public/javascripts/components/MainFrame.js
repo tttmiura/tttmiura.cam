@@ -90,8 +90,10 @@ var MainFrameFuntion = {
 
 					video.src = window.URL.createObjectURL(localMediaStream);
 					interval = setInterval(postImage, Config.postInterval);
-				}, function() {
+				}, function(e) {
 					console.log("Media error");
+					console.log(e);
+					NotificationAlert.alert('デバイス起動失敗', 'デバイスの起動に失敗しました。');
 				});
 			};
 			document.registerElement('x-mainframe', {
