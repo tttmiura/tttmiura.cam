@@ -127,7 +127,11 @@ var MainFrameFuntion = {
 			video.localMediaStream = null;
 		}
 		video.classList.add('videoReady');
-		NotificationAlert.alert('デバイス停止', 'デバイスが停止しました。');
+		var alert = new NotificationAlert({
+			title : 'デバイス停止',
+			msg : 'デバイスが停止しました。'
+		});
+		alert.notify();
 	}
 };
 

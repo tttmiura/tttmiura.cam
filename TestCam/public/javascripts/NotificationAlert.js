@@ -47,7 +47,7 @@ NotificationAlert.prototype.setParam = function(param) {
 
 NotificationAlert.prototype.options = {
 	dir: 'ltr',
-	icon: 'public/images/pc_profAni03.gif'
+	icon: 'public/images/curry.jpg'
 };
 NotificationAlert.prototype.title = '通知';
 NotificationAlert.prototype.msg = '通知';
